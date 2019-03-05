@@ -1,3 +1,3 @@
 # Backend - D_POP
 
-__This repo if for college project d-POP__
+__This repo is for college project d-POP__
