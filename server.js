@@ -1,8 +1,22 @@
 const express = require('express');
 const fs = require('fs');
-
+const bodyParser = require('body-parser');
+var mongodb = require('mongodb');
+var MongoClient = mongodb.MongoClient;
+var mongoURL = 'mongodb://localhost:27017/';
 var app = express();
+const dbRoute = require('./dbActions/');
+const dbActions = require('./dbActions/dbActions');
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+
+app.post('/addProject', dbRoute.addProject);
+
+app.get('/getallprojects', dbRoute.getallprojects);
 
 app.get('/', (req, res) => {
   // res.send("Hii from Gaurav Kumar");
@@ -12,25 +26,10 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/getallprojects', (req, res) => {
-  tempData = [] ;
-  data = fs.readFileSync('data_files/projects.json');
-  data = JSON.parse(data);
-  if (req.query.projectType === "All") {
-    res.json(data)
-  } else {
-    for (var i = 0; i < data.length; i++) {
-      if (data[i].projectType === req.query.projectType) {
-        tempData.push(data[i]);
-      }
-    }
-    res.json(tempData);
-  }
-  console.log(tempData);
-
-});
-
-app.listen("9000", (error) => {
-  if (error) throw err;
-  console.log("Server started at: 9000");
-});
+MongoClient.connect(mongoURL, function(err, client) {
+  if (err) throw err;
+  dbActions.init(client);
+  app.listen(9000, function() {
+    console.log("Server Started at 9000");
+  })
+})
