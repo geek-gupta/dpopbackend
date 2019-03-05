@@ -1,12 +1,12 @@
-  [{
-    "projectName": "Department App",
-    "shortDescription": "This app keeps you updated with whatever going in your Department. This is the best app in the market.",
-    "ownerName": "Gaurav & Lokesh",
-    "isFav": true,
-    "progress": 73,
-    "projectType": "Android",
-    "creationTime": "27/02/19"
-  },
+    [{
+      "projectName": "Department App",
+      "shortDescription": "This app keeps you updated with whatever going in your Department. This is the best app in the market.",
+      "ownerName": "Gaurav & Lokesh",
+      "isFav": true,
+      "progress": 73,
+      "projectType": "Android",
+      "creationTime": "27/02/19"
+    },
   {
     "projectName": "Music App",
     "shortDescription": "This app keeps you updated with whatever going in your Department. This is the best app in the market.",
