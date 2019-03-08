@@ -1,6 +1,16 @@
 const dbActions = require('./dbActions');
 
+function addLoginData(req, res) {
+  dbActions.addLoginData(req.query, function(result) {
+    res.send(result);
+  })
+}
 
+function attemptLogin(req, res) {
+  dbActions.attemptLogin(req.query,function(result) {
+    res.send(result);
+  })
+}
 
 function addProject(req, res) {
   var data = req.body;
@@ -18,6 +28,8 @@ function getallprojects(req, res) {
 
 
 module.exports =  {
+  addLoginData,
+  attemptLogin,
   addProject,
   getallprojects
 };

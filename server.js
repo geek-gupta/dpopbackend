@@ -14,10 +14,15 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+app.get('/addLoginData', dbRoute.addLoginData);
+
+app.get('/attemptLogin', dbRoute.attemptLogin);
 
 app.post('/addProject', dbRoute.addProject);
 
 app.get('/getallprojects', dbRoute.getallprojects);
+
+
 
 app.get('/', (req, res) => {
   // res.send("Hii from Gaurav Kumar");
