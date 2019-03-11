@@ -25,8 +25,8 @@ function addLoginData(data, done) {
 }
 
 function attemptLogin(data, done) {
+  console.log("This is the data password " + data.password);
   let login = myDb.collection('login');
-  console.log(data);
   login.aggregate([{
         $match: {
           loginData: {
@@ -54,11 +54,15 @@ function attemptLogin(data, done) {
       }
     ])
     .toArray(function(err, result) {
-      console.log(result);
-      if(result.length > 0 && result[0].loginData[0].isStudent === data.isStudent){
-        done({"isLoginSuccess": true});
-      }else{
-        done({"isLoginSuccess": false});
+      console.log("This is the result " + result[0].loginData[0].password);
+      if (result.length > 0 && result[0].loginData[0].isStudent === data.isStudent && result[0].loginData[0].password === data.password) {
+        done({
+          "isLoginSuccess": true
+        });
+      } else {
+        done({
+          "isLoginSuccess": false
+        });
       }
     });
 
@@ -83,16 +87,28 @@ function addProject(data, done) {
     });
 }
 
+function getAllCategories(done) {
+  let project = myDb.collection('project');
+  project.find({
+    "name": "project"
+  }, {
+    "categoryList": 1
+  }).toArray(function(err, result) {
+    var dataToSend = {
+      "categories": result[0].categoryList
+    };
+    done(dataToSend);
+  });
+}
 
 function getallprojects(projectType, done) {
   let project = myDb.collection('project');
-  if(projectType === "All") {
+  if (projectType === "All") {
     project.find({
       "name": "project"
     }, {
       "projectList": 1
     }).toArray(function(err, result) {
-      console.log(result);
       done(result[0].projectList);
     });
   } else {
@@ -130,10 +146,12 @@ function getallprojects(projectType, done) {
 }
 
 
+
 module.exports = {
   addLoginData,
   attemptLogin,
   addProject,
   init,
-  getallprojects
+  getallprojects,
+  getAllCategories
 };

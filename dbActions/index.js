@@ -19,6 +19,12 @@ function addProject(req, res) {
   })
 }
 
+function getAllCategories(req, res) {
+  dbActions.getAllCategories(function (result) {
+    res.send(result);
+  })
+}
+
 function getallprojects(req, res) {
   var projectType = req.query.projectType;
   dbActions.getallprojects(projectType, function(result){
@@ -31,5 +37,6 @@ module.exports =  {
   addLoginData,
   attemptLogin,
   addProject,
-  getallprojects
+  getallprojects,
+  getAllCategories
 };

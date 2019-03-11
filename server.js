@@ -20,7 +20,10 @@ app.get('/attemptLogin', dbRoute.attemptLogin);
 
 app.post('/addProject', dbRoute.addProject);
 
+app.get('/getAllCategories', dbRoute.getAllCategories);
+
 app.get('/getallprojects', dbRoute.getallprojects);
+
 
 
 
