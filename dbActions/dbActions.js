@@ -25,7 +25,7 @@ function addLoginData(data, done) {
 }
 
 function attemptLogin(data, done) {
-  console.log("This is the data password " + data.password);
+  
   let login = myDb.collection('login');
   login.aggregate([{
         $match: {
@@ -54,7 +54,6 @@ function attemptLogin(data, done) {
       }
     ])
     .toArray(function(err, result) {
-      console.log("This is the result " + result[0].loginData[0].password);
       if (result.length > 0 && result[0].loginData[0].isStudent === data.isStudent && result[0].loginData[0].password === data.password) {
         done({
           "isLoginSuccess": true
