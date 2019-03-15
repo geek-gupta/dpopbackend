@@ -25,8 +25,9 @@ function addLoginData(data, done) {
 }
 
 function attemptLogin(data, done) {
-  
+
   let login = myDb.collection('login');
+
   login.aggregate([{
         $match: {
           loginData: {
@@ -144,6 +145,76 @@ function getallprojects(projectType, done) {
   }
 }
 
+function getRecentNotesList(done) {
+  let notes = myDb.collection('notes');
+  notes.find({
+    "name": "notes"
+  }, {
+    "recentNotesList": 1
+  }).toArray(function(err, result) {
+    var dataToSend = {
+      "recentNotesList": result[0].recentNotesList
+    };
+    console.log(dataToSend);
+    done(dataToSend);
+  });
+
+}
+
+function getNotes(category, done) {
+  let notes = myDb.collection('notes');
+  notes.aggregate([{
+        $match: {
+          notesNameList: {
+            $elemMatch: {
+              "category": category
+            }
+          }
+        }
+      },
+      {
+        $unwind: "$notesNameList"
+      },
+      {
+        $match: {
+          "notesNameList.category": category
+        }
+      },
+      {
+        $group: {
+          _id: "$_id",
+          notesNameList: {
+            $addToSet: "$notesNameList"
+          }
+        }
+      }
+    ])
+    .toArray(function(err, result) {
+      if(result.length < 1){
+        getNotes("Android", done);
+      }
+      else {
+        done(result[0].notesNameList);
+      }
+    });
+}
+
+
+function getNotesBaseCategories(done) {
+
+  let notes = myDb.collection('notes');
+  notes.find({
+    "name": "notes"
+  }, {
+    "baseCategories": 1
+  }).toArray(function(err, result) {
+    var dataToSend = {
+      "BaseCategories": result[0].baseCategories
+    };
+    console.log(dataToSend);
+    done(dataToSend);
+  });
+}
 
 
 module.exports = {
@@ -152,5 +223,8 @@ module.exports = {
   addProject,
   init,
   getallprojects,
-  getAllCategories
+  getAllCategories,
+  getNotesBaseCategories,
+  getNotes,
+  getRecentNotesList
 };

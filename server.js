@@ -24,6 +24,12 @@ app.get('/getAllCategories', dbRoute.getAllCategories);
 
 app.get('/getallprojects', dbRoute.getallprojects);
 
+app.get('/getNotesBaseCategories', dbRoute.getNotesBaseCategories);
+
+app.get('/getRecentNotesList', dbRoute.getRecentNotesList);
+
+app.get('/getNotes', dbRoute.getNotes);
+
 
 
 

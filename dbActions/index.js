@@ -32,11 +32,31 @@ function getallprojects(req, res) {
   });
 }
 
+function getRecentNotesList(req, res) {
+  dbActions.getRecentNotesList(function(result){
+    res.send(result);
+  })
+}
+
+function getNotes(req, res) {
+  dbActions.getNotes(req.query.category, function(result){
+    res.send(result);
+  });
+}
+
+function getNotesBaseCategories(req, res) {
+  dbActions.getNotesBaseCategories(function(result){
+    res.send(result);
+  });
+}
 
 module.exports =  {
   addLoginData,
   attemptLogin,
   addProject,
   getallprojects,
-  getAllCategories
+  getAllCategories,
+  getRecentNotesList,
+  getNotes,
+  getNotesBaseCategories
 };
