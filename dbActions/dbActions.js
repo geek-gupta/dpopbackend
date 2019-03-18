@@ -1,4 +1,5 @@
 const JSON = require('circular-json');
+const fs = require('fs');
 let myDb = "";
 
 function init(client) {
@@ -162,6 +163,7 @@ function getRecentNotesList(done) {
 }
 
 function getNotes(category, done) {
+
   let notes = myDb.collection('notes');
   notes.aggregate([{
         $match: {
@@ -216,6 +218,11 @@ function getNotesBaseCategories(done) {
   });
 }
 
+function getPDF(pdfName, done) {
+  console.log("I got hit in getPDF");
+  var data = fs.readFileSync(`data_files/eglu.pdf`);
+   done(data);
+}
 
 module.exports = {
   addLoginData,
@@ -226,5 +233,6 @@ module.exports = {
   getAllCategories,
   getNotesBaseCategories,
   getNotes,
-  getRecentNotesList
+  getRecentNotesList,
+  getPDF
 };

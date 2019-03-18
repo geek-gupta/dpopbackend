@@ -30,6 +30,8 @@ app.get('/getRecentNotesList', dbRoute.getRecentNotesList);
 
 app.get('/getNotes', dbRoute.getNotes);
 
+app.get('/getPDF', dbRoute.getPDF);
+
 
 
 

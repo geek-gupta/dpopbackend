@@ -50,6 +50,13 @@ function getNotesBaseCategories(req, res) {
   });
 }
 
+function getPDF(req, res) {
+  dbActions.getPDF(req.query.pdfName, function(result){
+    res.contentType("application/pdf");
+    res.send(result);
+  });
+}
+
 module.exports =  {
   addLoginData,
   attemptLogin,
@@ -58,5 +65,6 @@ module.exports =  {
   getAllCategories,
   getRecentNotesList,
   getNotes,
-  getNotesBaseCategories
+  getNotesBaseCategories,
+  getPDF
 };
