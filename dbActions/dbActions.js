@@ -1,4 +1,4 @@
-const JSON = require('circular-json');
+ const JSON = require('circular-json');
 const fs = require('fs');
 let myDb = "";
 
