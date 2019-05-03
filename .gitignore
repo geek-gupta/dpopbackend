@@ -17,7 +17,7 @@ yarn-error.log*
 pids
 
 <<<<<<< HEAD
-db
+
 
 node_modules
 =======
@@ -69,7 +69,9 @@ bower_components
 
 build/Release
 
-db/
+
+
+
 
 # Dependency directories
 
