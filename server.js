@@ -32,6 +32,10 @@ app.get('/getNotes', dbRoute.getNotes);
 
 app.get('/getPDF', dbRoute.getPDF);
 
+app.post('/addQuery', dbRoute.addQuery);
+
+app.get('/getQueries', dbRoute.getQueries);
+
 
 
 

@@ -71,7 +71,7 @@ function attemptLogin(data, done) {
 
 function addProject(data, done) {
   console.log(data);
-  let project = myDb.collection('gaurav');
+  let project = myDb.collection('project');
   var myquery = {
     name: "project"
   };
@@ -224,6 +224,36 @@ function getPDF(pdfName, done) {
    done(data);
 }
 
+function addQuery(queryData, done) {
+  console.log("THis is the data for query"+ queryData);
+  let project = myDb.collection('query');
+  var myquery = {
+    name: "query"
+  };
+  var newvalues = {
+    $push: {
+      queries: queryData
+    }
+  };
+  project.updateOne(myquery, newvalues,
+    function(err, result) {
+      if (err) throw err;
+      console.log(result.ops);
+      done(result);
+    });
+}
+
+function getQueries(done) {
+  let query = myDb.collection('query');
+  query.find({
+    "name": "query"
+  }, {
+    "queries": 1
+  }).toArray(function(err, result) {
+    done(result[0].queries);
+  });
+}
+
 module.exports = {
   addLoginData,
   attemptLogin,
@@ -234,5 +264,7 @@ module.exports = {
   getNotesBaseCategories,
   getNotes,
   getRecentNotesList,
-  getPDF
+  getPDF,
+  addQuery,
+  getQueries
 };

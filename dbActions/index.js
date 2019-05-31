@@ -14,7 +14,7 @@ function attemptLogin(req, res) {
 
 function addProject(req, res) {
   var data = req.body;
-  dbActions.addProject(data,function( result) {
+  dbActions.addProject(data,function(result) {
     res.send(result);
   })
 }
@@ -57,6 +57,18 @@ function getPDF(req, res) {
   });
 }
 
+function addQuery(req, res) {
+  dbActions.addQuery(req.body, function(result) {
+    res.send(result);
+  });
+}
+
+function getQueries(req, res) {
+  dbActions.getQueries(function(result){
+    res.send(result);
+  });
+}
+
 module.exports =  {
   addLoginData,
   attemptLogin,
@@ -66,5 +78,7 @@ module.exports =  {
   getRecentNotesList,
   getNotes,
   getNotesBaseCategories,
-  getPDF
+  getPDF,
+  addQuery,
+  getQueries
 };
