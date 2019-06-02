@@ -69,6 +69,19 @@ function getQueries(req, res) {
   });
 }
 
+function getAnswerByQueryId(req, res) {
+  console.log(req.query);
+  dbActions.getAnswerByQueryId(req.query.queryId, function(result) {
+    res.send(result);
+  });
+}
+
+function addAnswerToQuery(req, res) {
+    dbActions.addAnswerToQuery(req.body, function (result) {
+      res.send(result);
+    });
+}
+
 module.exports =  {
   addLoginData,
   attemptLogin,
@@ -80,5 +93,7 @@ module.exports =  {
   getNotesBaseCategories,
   getPDF,
   addQuery,
-  getQueries
+  getQueries,
+  getAnswerByQueryId,
+  addAnswerToQuery
 };

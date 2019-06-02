@@ -225,22 +225,34 @@ function getPDF(pdfName, done) {
 }
 
 function addQuery(queryData, done) {
-  console.log("THis is the data for query"+ queryData);
-  let project = myDb.collection('query');
-  var myquery = {
-    name: "query"
-  };
-  var newvalues = {
-    $push: {
-      queries: queryData
-    }
-  };
-  project.updateOne(myquery, newvalues,
-    function(err, result) {
-      if (err) throw err;
-      console.log(result.ops);
-      done(result);
-    });
+  let query = myDb.collection('query');
+  let queryCount = 0;
+  query.find({
+    "name": "query"
+  }, {
+    "queries": 1
+  }).toArray(function(err, result) {
+      queryCount = result[0].queries.length
+      queryCOUNT = queryCount + 1 ;
+      queryData.queryId = queryCOUNT.toString();
+      queryCount = queryCount + 1;
+
+      var myquery = {
+        name: "query"
+      };
+      var newvalues = {
+        $push: {
+          queries: queryData
+        }
+      };
+      query.updateOne(myquery, newvalues,
+        function(err, result) {
+          if (err) throw err;
+          done(result[0]);
+        });
+  });
+
+
 }
 
 function getQueries(done) {
@@ -252,6 +264,66 @@ function getQueries(done) {
   }).toArray(function(err, result) {
     done(result[0].queries);
   });
+}
+
+  function getAnswerByQueryId(queryId, done) {
+  let query = myDb.collection('query');
+  query.aggregate([{
+        $match: {
+          queries: {
+            $elemMatch: {
+              "queryId": queryId
+            }
+          }
+        }
+      },
+      {
+        $unwind: "$queries"
+      },
+      {
+        $match: {
+          "queries.queryId": queryId
+        }
+      },
+      {
+        $group: {
+          _id: "$_id",
+          queries: {
+            $addToSet: "$queries"
+          }
+        }
+      }
+    ])
+    .toArray(function(err, result) {
+      done(result[0].queries[0].answers)
+    });
+}
+
+function addAnswerToQuery(data, done) {
+  let query = myDb.collection('query');
+  // query.update(
+  //     { "name": "query", "queries.queryId": data.queryId},
+  //     { "$push":
+  //         {"queries.$.answers":
+  //             {
+  //                 "answeredBy": data.answeredBy,
+  //                 "answer": data.answer
+  //             }
+  //         }
+  //     }
+  // )
+  query.updateOne({ "name": "query", "queries.queryId": data.queryId}, { "$push":
+      {"queries.$.answers":
+          {
+              "answeredBy": data.answeredBy,
+              "answer": data.answer
+          }
+      }
+  },
+    function(err, result) {
+      if (err) throw err;
+      done(result);
+    });
 }
 
 module.exports = {
@@ -266,5 +338,7 @@ module.exports = {
   getRecentNotesList,
   getPDF,
   addQuery,
-  getQueries
+  getQueries,
+  getAnswerByQueryId,
+  addAnswerToQuery
 };

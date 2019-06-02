@@ -36,6 +36,9 @@ app.post('/addQuery', dbRoute.addQuery);
 
 app.get('/getQueries', dbRoute.getQueries);
 
+app.get('/getAnswerByQueryId', dbRoute.getAnswerByQueryId);
+
+app.post('/addAnswerToQuery', dbRoute.addAnswerToQuery);
 
 
 
